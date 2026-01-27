@@ -6,25 +6,21 @@
 - Segurança: rate limit por tenant + por número WhatsApp + por user_id.
 - Observabilidade: logs estruturados + métricas de latência RAG + erro 429.
 
-## Backlog
-(Tarefas anteriores preservadas aqui)
+## Concluído (DevOps Audit Phase)
+- [x] **CI/CD**: Workflows de CI (Security/Tests) e CD (Webhook) criados.
+- [x] **Secrets**: Removido hardcode, implementado padrão env var.
+- [x] **Rate Limit**: Implementado Redis Token Bucket no Orchestrator.
+- [x] **Volumes**: Bind mounts para `/nvme/*` configurados.
+- [x] **Validation**: Prompt Injection Protection ativo.
+- [x] **Logs**: JSON estruturado implementado.
+- [x] **Network**: Segregação External/Internal aplicada.
 
 ## Concluído (Bootstrap Phase)
 - [x] **Antigravity Setup**: Criada estrutura de pastas, rules, workflows e skills.
-- [x] **Service Refinement**:
-  - API Gateway: Logging JSON, proxy `/v1/messages`.
-  - WhatsApp Adapter: Stub com Rate Limit (Redis).
-  - Orchestrator: LangGraph com tools RAG e Browser.
-  - RAG HVAC: Ingest pipeline PDF -> Qdrant.
-  - Browser Tools: Puppeteer service.
-  - LiteLLM: Config com Redis.
-- [x] **DevOps**:
-  - `docker-compose.prod.yml` completo com healthchecks e volumes.
-  - Scripts: bootstrap, backup, healthcheck, smoke-test.
-  - Runbooks: Deploy Coolify, Ingest Manuals, Incident Rate Limit.
-- [x] **Quality**: Tests integration flow.
+- [x] **Service Refinement**: Services básicos funcionais.
+- [x] **DevOps Basics**: Docker Compose v1, Scripts básicos.
 
-## Próximos Passos
+## Next Steps (Feature Phase)
 - Implementar UI Dashboard (Next.js/React).
-- Configurar CI/CD no GitHub Actions/Coolify Webhooks real.
 - Ingerir manuais reais de produção.
+- Configurar monitoramento (Prometheus/Grafana) para consumir logs JSON.

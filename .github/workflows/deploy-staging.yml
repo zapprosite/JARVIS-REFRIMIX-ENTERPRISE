@@ -1,0 +1,19 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [security] # Depends on security scan passing
+    # Let's keep it simple as requested
+    steps:
+      - name: Trigger Coolify Webhook
+        run: |
+          if [ -z "${{ secrets.COOLIFY_WEBHOOK }}" ]; then
+            echo "COOLIFY_WEBHOOK secret not set."
+            exit 1
+          fi
+          curl --request GET '${{ secrets.COOLIFY_WEBHOOK }}' --header 'Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}'

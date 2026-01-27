@@ -1,13 +1,26 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Optional
 import logging
 import os
 from src.graph import app as graph_app
+from src.rate_limiter import RateLimiter
+from src.security import sanitize_prompt
+
+from pythonjsonlogger import jsonlogger
 
 # Logging Setup
-logging.basicConfig(level=logging.INFO, format='%(message)s') # JSON logger logic handled by standard logging for now, upgrade to python-json-logger later
-logger = logging.getLogger("orchestrator")
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+formatter = jsonlogger.JsonFormatter('%(asctime)s %(levelname)s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.INFO)
+# logging.basicConfig(level=logging.INFO) # Disabled in favor of custom handler
+
+# Rate Limiter Setup
+REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379")
+rate_limiter = RateLimiter(REDIS_URL)
 
 app = FastAPI()
 
@@ -24,6 +37,25 @@ async def health():
 @app.post("/v1/chat")
 async def chat(req: ChatRequest):
     logger.info(f"Received chat for tenant {req.tenant_id} user {req.user_id}")
+    
+    # 1. Rate Limit Check
+    await rate_limiter.check_quota(req.tenant_id, req.user_id)
+    
+    # 2. Input Validation (Sanitize)
+    try:
+        # Assuming req.messages is [{"role": "user", "content": "..."}]
+        # We only sanitize "user" content.
+        clean_messages = []
+        for m in req.messages:
+            if m.get("content"):
+                m["content"] = sanitize_prompt(m["content"])
+            clean_messages.append(m)
+        
+        # Update inputs
+        req.messages = clean_messages
+    except ValueError as e:
+        logger.warning(f"Security Alert: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
     
     # Convert messages
     # Simple conversion, production needs better handling of roles

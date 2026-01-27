@@ -12,7 +12,8 @@ services:
       - LOG_LEVEL=info
       - WHATSAPP_ADAPTER_URL=http://whatsapp-adapter:3001
     networks:
-      - jarvis-net
+      - external
+      - internal
     depends_on:
       - whatsapp-adapter
     healthcheck:
@@ -31,7 +32,8 @@ services:
       - ORCHESTRATOR_URL=http://orchestrator-langgraph:8000
       - REDIS_URL=redis://redis:6379
     networks:
-      - jarvis-net
+      - external
+      - internal
     depends_on:
       - redis
       - orchestrator-langgraph
@@ -50,9 +52,9 @@ services:
       - BROWSER_TOOLS_URL=http://browser-tools:3000
       - LITELLM_URL=http://litellm:4000
       - REDIS_URL=redis://redis:6379
-      - POSTGRES_URL=postgresql://user:password@postgres:5432/zappro
+      - POSTGRES_URL=postgresql://${POSTGRES_USER:-user}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-zappro}
     networks:
-      - jarvis-net
+      - internal
     depends_on:
       - rag-hvac
       - browser-tools
@@ -72,7 +74,7 @@ services:
     environment:
       - QDRANT_URL=http://qdrant:6333
     networks:
-      - jarvis-net
+      - internal
     depends_on:
       - qdrant
     healthcheck:
@@ -89,7 +91,7 @@ services:
     volumes:
       - browser_profile:/app/profile
     networks:
-      - jarvis-net
+      - internal
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s
@@ -113,7 +115,7 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     networks:
-      - jarvis-net
+      - internal
     depends_on:
       - redis
     healthcheck:
@@ -129,9 +131,9 @@ services:
     ports:
       - "6333:6333"
     volumes:
-      - qdrant_data:/qdrant/storage
+      - ${VOLUME_ROOT:-/nvme}/qdrant:/qdrant/storage
     networks:
-      - jarvis-net
+      - internal
     healthcheck:
       test: ["CMD-SHELL", "bash -c '</dev/tcp/localhost/6333'"] # Simple tcp check
       interval: 30s
@@ -142,13 +144,13 @@ services:
     image: postgres:15-alpine
     restart: always
     environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=zappro
+      - POSTGRES_USER=${POSTGRES_USER:-user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB:-zappro}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ${VOLUME_ROOT:-/nvme}/postgres:/var/lib/postgresql/data
     networks:
-      - jarvis-net
+      - internal
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U user -d zappro"]
       interval: 10s
@@ -159,9 +161,9 @@ services:
     image: redis:alpine
     restart: always
     volumes:
-      - redis_data:/data
+      - ${VOLUME_ROOT:-/nvme}/redis:/data
     networks:
-      - jarvis-net
+      - internal
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -169,11 +171,11 @@ services:
       retries: 5
 
 networks:
-  jarvis-net:
+  external:
     driver: bridge
+  internal:
+    driver: bridge
+    internal: true
 
 volumes:
-  qdrant_data:
-  postgres_data:
-  redis_data:
   browser_profile:

@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 # Tests basic flow: Gateway receiving message -> orchestrator

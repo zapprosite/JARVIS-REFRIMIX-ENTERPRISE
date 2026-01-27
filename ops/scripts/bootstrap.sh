@@ -3,6 +3,17 @@ set -e
 
 echo "🚀 Starting Zappro Bootstrap..."
 
+# 0. Prep Volume Root
+echo "💾 Checking Storage directories..."
+if [ -d "/nvme" ]; then
+    echo "✅ /nvme exists. Using Production Storage."
+    export VOLUME_ROOT="/nvme"
+else
+    echo "⚠️ /nvme missing. Fallback to local ./data_local directory."
+    export VOLUME_ROOT="./data_local"
+    mkdir -p ./data_local/{qdrant,postgres,redis}
+fi
+
 # 1. Check dependencies
 if ! command -v docker &> /dev/null; then
     echo "❌ Docker not found!"
