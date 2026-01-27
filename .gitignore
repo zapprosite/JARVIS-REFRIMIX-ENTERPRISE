@@ -9,6 +9,8 @@ venv/
 .env
 .env.*
 !.env.example
+ops/coolify/env/*.env
+!ops/coolify/env/*.env.example
 
 # OS
 .DS_Store

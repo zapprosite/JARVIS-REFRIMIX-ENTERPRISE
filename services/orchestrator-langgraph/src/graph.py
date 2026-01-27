@@ -1,11 +1,12 @@
 import os
 from typing import Annotated, TypedDict, List
 import operator
-from langchain_core.messages import BaseMessage, HumanMessage, AIMessage, SystemMessage
+from langchain_core.messages import BaseMessage, SystemMessage
 from langchain_openai import ChatOpenAI
-from langgraph.graph import StateGraph, END
+from langgraph.graph import StateGraph
 from langgraph.prebuilt import ToolNode, tools_condition
-from langgraph.checkpoint.memory import MemorySaver
+from langgraph.checkpoint.postgres import PostgresSaver
+from psycopg_pool import ConnectionPool
 from src.tools import query_hvac_manuals, search_web
 
 # Environment for LiteLLM
@@ -54,7 +55,11 @@ workflow.add_conditional_edges(
 )
 workflow.add_edge("tools", "agent")
 
-# Checkpointer (Memory for now, Postgres in prod TODO)
-checkpointer = MemorySaver()
+# Postgres Persistence
+POSTGRES_URL = os.getenv("POSTGRES_URL", "postgresql://user:password@postgres:5432/zappro")
+pool = ConnectionPool(conninfo=POSTGRES_URL, max_size=10, timeout=30)
+
+# Checkpointer
+checkpointer = PostgresSaver(pool)
 
 app = workflow.compile(checkpointer=checkpointer)

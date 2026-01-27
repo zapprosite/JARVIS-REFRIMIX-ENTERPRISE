@@ -8,6 +8,7 @@ langchain-openai
 langgraph
 redis
 psycopg[binary]
+langgraph-checkpoint-postgres
 pydantic
 python-dotenv
 python-json-logger

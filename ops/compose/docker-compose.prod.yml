@@ -65,7 +65,7 @@ services:
       - BROWSER_TOOLS_URL=http://browser-tools:3000
       - LITELLM_URL=http://litellm:4000
       - REDIS_URL=redis://redis:6379
-      - POSTGRES_URL=postgresql://${POSTGRES_USER:-user}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-zappro}
+      - POSTGRES_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     networks:
       - internal
     depends_on:
@@ -157,11 +157,12 @@ services:
     image: postgres:15-alpine
     restart: always
     environment:
-      - POSTGRES_USER=${POSTGRES_USER:-user}
+      - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB:-zappro}
+      - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - ${VOLUME_ROOT:-/nvme}/postgres:/var/lib/postgresql/data
+      - ../migrations:/migrations:ro
     networks:
       - internal
     healthcheck:
