@@ -32,7 +32,7 @@
 - [x] **Logs JSON** → Concluído.
 
 ## 🔴 PRÓXIMAS TAREFAS (Sprint 1)
-- [ ] **Input validation** → services/orchestrator-langgraph/src/security.py (Implementar sanitização real)
+- [x] **Input validation** → services/orchestrator-langgraph/src/security.py (Implementar sanitização real)
 - [ ] **Testes automatizados** → services/*/tests/integration.test.*
 
 ## 🟡 SPRINT 2 - RAG PRODUCTION (Dias 4-7)
