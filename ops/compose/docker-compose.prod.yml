@@ -22,6 +22,19 @@ services:
       timeout: 10s
       retries: 3
 
+  dashboard:
+    build: ../../services/dashboard
+    restart: always
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - external
+      - internal
+    depends_on:
+      - api-gateway
+
   # --- Adapters ---
   whatsapp-adapter:
     build: ../../services/whatsapp-adapter
