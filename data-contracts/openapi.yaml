@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: ZapPRO API
+  version: 1.0.0
+  description: API interna para orquestração do bot WhatsApp e gestão de tenants.
+
+paths:
+  /v1/message:
+    post:
+      summary: Envia mensagem do usuário para o orquestrador
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tenant_id:
+                  type: string
+                user_id:
+                  type: string
+                message:
+                  type: string
+                  description: Conteúdo da mensagem
+                metadata:
+                  type: object
+                  description: Dados adicionais (ex: nome, telefone)
+      responses:
+        '200':
+          description: Resposta processada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                  actions:
+                    type: array
+                    items:
+                      type: object
+
+  /v1/tenants:
+    post:
+      summary: Cria ou atualiza configuração de um tenant
+      parameters:
+        - in: header
+          name: X-Admin-Token
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Tenant configurado
+
+  /v1/ingest:
+    post:
+      summary: Ingestão de documento para RAG
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                metadata:
+                  type: string
+                  format: json
+                  description: '{"manufacturer": "...", "model": "..."}'
+      responses:
+        '200':
+          description: Documento enfileirado para processamento

@@ -1,0 +1,29 @@
+{
+  "tools": [
+    {
+      "name": "search_manuals",
+      "description": "Busca informações técnicas nos manuais de HVAC ingestados.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string" },
+          "manufacturer": { "type": "string" },
+          "model": { "type": "string" }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "get_error_code",
+      "description": "Consulta código de erro específico.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string" },
+          "brand": { "type": "string" }
+        },
+        "required": ["code"]
+      }
+    }
+  ]
+}

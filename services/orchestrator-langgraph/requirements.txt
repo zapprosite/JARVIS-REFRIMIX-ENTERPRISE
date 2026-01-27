@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+httpx
+langchain
+langchain-community
+langchain-core
+langchain-openai
+langgraph
+redis
+psycopg[binary]
+pydantic
+python-dotenv

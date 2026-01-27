@@ -1,0 +1,15 @@
+{
+    "name": "browser-tools",
+    "version": "1.0.0",
+    "description": "Browser automation for ZapPRO",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "node src/index.js"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "puppeteer": "^22.0.0",
+        "pino": "^8.19.0",
+        "pino-http": "^9.0.0"
+    }
+}

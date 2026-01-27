@@ -1,0 +1,25 @@
+general_settings:
+  master_key: sk-dummy-master-key
+  database_url: "redis://redis:6379" # For keys, budgets, logs handling
+
+litellm_settings:
+  cache: true # Enable caching of responses
+  cache_type: redis
+  success_callback: ["langfuse"] # Optional, for observability if keys provided
+
+model_list:
+  - model_name: gpt-4o
+    litellm_params:
+      model: openai/gpt-4o
+      rpm: 1000
+      tpm: 100000
+      timeout: 300
+  - model_name: claude-3-5-sonnet
+    litellm_params:
+      model: anthropic/claude-3-5-sonnet-20240620
+      rpm: 1000
+      tpm: 100000
+
+environment_variables:
+  REDIS_HOST: redis
+  REDIS_PORT: 6379
