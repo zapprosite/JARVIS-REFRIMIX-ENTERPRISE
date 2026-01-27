@@ -40,7 +40,14 @@
 - [ ] Implementar citations obrigatórias (validate_rag_response)
 - [ ] Accuracy monitoring (Grafana dashboard)
 
-## 📊 Métricas de Sucesso
+## � ROADMAP 2026 (Modernization)
+- [ ] **Semantic Caching** → Implementar Redis Semantic Cache (reduzir latência/custo).
+- [ ] **Observability** → OpenTelemetry (OTel) para tracing de Agentes.
+- [ ] **Guardrails Sidecar** → Mover security (Sanitizer) para Proxy/Rust sidecar.
+- [ ] **Self-Correction** → Reflexão automática em caso de erro/alucinação.
+- [ ] **TestSprite MCP** → Corrigir autenticação e integrar geração de testes AI.
+
+## �📊 Métricas de Sucesso
 - Sprint 0: Rate Limit 100% funcional + Persistência estável (CHECK).
 - Sprint 1: CI green + all healthchecks pass.
 - Sprint 2: RAG accuracy > 92%, citations 100%.
