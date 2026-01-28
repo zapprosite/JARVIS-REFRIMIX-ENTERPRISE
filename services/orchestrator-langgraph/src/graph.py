@@ -8,13 +8,14 @@ from langgraph.prebuilt import ToolNode, tools_condition
 from langgraph.checkpoint.postgres import PostgresSaver
 from psycopg_pool import ConnectionPool
 from src.tools import query_hvac_manuals, search_web
+from src.admin_tools import run_diagnostic
 
 # Environment for LiteLLM
 LITELLM_URL = os.getenv("LITELLM_URL", "http://litellm:4000")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "sk-dummy") # LiteLLM usually accepts any key
 
 # Tools
-tools = [query_hvac_manuals, search_web]
+tools = [query_hvac_manuals, search_web, run_diagnostic]
 
 # Model
 # Model
