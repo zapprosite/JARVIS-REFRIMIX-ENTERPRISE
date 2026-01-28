@@ -6,6 +6,8 @@ from typing import List, Dict, Any, Optional
 RAG_HVAC_URL = os.getenv("RAG_HVAC_URL", "http://rag-hvac:8000")
 BROWSER_TOOLS_URL = os.getenv("BROWSER_TOOLS_URL", "http://browser-tools:3000")
 
+from src.validators import validate_rag_response
+
 @tool
 async def query_hvac_manuals(query: str) -> Dict[str, Any]:
     """
@@ -22,7 +24,8 @@ async def query_hvac_manuals(query: str) -> Dict[str, Any]:
         try:
             resp = await client.post(f"{RAG_HVAC_URL}/query", json={"query": query}, timeout=30.0)
             resp.raise_for_status()
-            return resp.json()
+            data = resp.json()
+            return validate_rag_response(data)
         except Exception as e:
             return {"answer": f"Error querying manuals: {str(e)}", "citations": []}
 

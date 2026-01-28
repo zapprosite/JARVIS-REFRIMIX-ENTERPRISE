@@ -36,8 +36,7 @@
 - [x] **Testes automatizados** → services/*/tests/integration.test.*
 
 ## 🟡 SPRINT 2 - RAG PRODUCTION (Dias 4-7)
-- [ ] Ingest 50+ manuais HVAC BR (Daikin, Mitsubishi, LG)
-- [ ] Implementar citations obrigatórias (validate_rag_response)
+- [x] Implementar citations obrigatórias (validate_rag_response)
 - [ ] Accuracy monitoring (Grafana dashboard)
 
 ## � ROADMAP 2026 (Modernization)
@@ -48,6 +47,9 @@
 - [ ] **TestSprite MCP** → Corrigir autenticação e integrar geração de testes AI.
 - [x] **Credentialless Mode** → Garantir "Mock-First" boot (app sobe sem secrets reais).
 - [x] **Contract Verification** → Scripts `curl` para validar contratos de API (smoke tests).
+
+## ⏸️ EM ESPERA
+- [ ] Ingest 50+ manuais HVAC BR (Daikin, Mitsubishi, LG)
 
 ## �📊 Métricas de Sucesso
 - Sprint 0: Rate Limit 100% funcional + Persistência estável (CHECK).
