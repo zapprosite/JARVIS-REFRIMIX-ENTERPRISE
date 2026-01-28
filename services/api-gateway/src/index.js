@@ -22,6 +22,37 @@ app.use(cors());
 app.use(express.json());
 app.use(pinoHttp({ logger }));
 
+// Guardrails Middleware (WAF-lite)
+const guardrails = (req, res, next) => {
+  if (req.method !== 'POST' && req.method !== 'PUT') return next();
+
+  const payload = JSON.stringify(req.body || {});
+
+  // 1. Size Limit (redundant with express limit, but explicit)
+  if (payload.length > 10000) {
+    logger.warn({ event: 'security_block', reason: 'payload_too_large' }, 'Blocked large payload');
+    return res.status(413).json({ error: 'Payload too large' });
+  }
+
+  // 2. SQL Injection Patterns (Basic)
+  const sqlPattern = /(\b(SELECT|INSERT|UPDATE|DELETE|DROP|UNION)\b.*\b(FROM|INTO|TABLE)\b)|(--\s)/i;
+  if (sqlPattern.test(payload)) {
+    logger.warn({ event: 'security_block', reason: 'sqli_attempt' }, 'Blocked SQL Injection attempt');
+    return res.status(403).json({ error: 'Malicious content detected' });
+  }
+
+  // 3. Prompt Injection Keywords (Defense in Depth)
+  const injectionPattern = /ignore previous instructions|system override|delete system behavior/i;
+  if (injectionPattern.test(payload)) {
+    logger.warn({ event: 'security_block', reason: 'prompt_injection' }, 'Blocked Prompt Injection');
+    return res.status(403).json({ error: 'Unsafe input detected' });
+  }
+
+  next();
+};
+
+app.use(guardrails);
+
 const PORT = process.env.PORT || 3000;
 
 // Health Check
