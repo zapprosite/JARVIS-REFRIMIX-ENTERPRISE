@@ -58,6 +58,19 @@ async def system_event(event: Dict[str, Any]):
     # TODO: In future sprints, this will trigger the 'Proactive Agent' graph.
     return {"status": "received", "event": event["event_type"]}
 
+@app.post("/v1/consolidate")
+async def consolidate_memory():
+    """
+    Triggers the 'Episodic Memory Consolidator' agent.
+    1. Reads chat history from Postgres.
+    2. Summarizes key facts vs User Profile.
+    3. Updates User Profile (JSONB).
+    """
+    # TODO: Implement actual LangGraph extraction logic here.
+    # For now, it logs the intent.
+    logger.info("🧠 Consolidation: Starting Memory Optimization Process...")
+    return {"status": "started", "job_id": "mock_job_123"}
+
 @app.post("/v1/chat")
 async def chat(req: ChatRequest):
     logger.info(f"Received chat for tenant {req.tenant_id} user {req.user_id}")
