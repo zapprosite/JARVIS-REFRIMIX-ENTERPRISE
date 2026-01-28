@@ -1,5 +1,5 @@
 import os
-from typing import Annotated, TypedDict, List
+from typing import Annotated, TypedDict, List, Dict, Any
 import operator
 from langchain_core.messages import BaseMessage, SystemMessage
 from langchain_openai import ChatOpenAI
@@ -39,17 +39,27 @@ class AgentState(TypedDict):
     messages: Annotated[List[BaseMessage], operator.add]
     tenant_id: str
     user_id: str
+    user_profile: Dict[str, Any]
 
 # Nodes
 def agent_node(state: AgentState):
     messages = state["messages"]
+    user_profile = state.get("user_profile", {})
+
+    # Dynamic System Message Construction
+    profile_context = ""
+    if user_profile:
+        profile_context = f"\nUser Profile Context: {user_profile}"
+
     # We could add system prompt injection here based on tenant_id
     if not any(isinstance(m, SystemMessage) for m in messages):
-        sys_msg = SystemMessage(content="""You are a helpful HVAC assistant. 
+        base_prompt = """You are a helpful HVAC assistant. 
 ALWAYS use the query_hvac_manuals tool for technical questions. Do not guess.
 If a tool returns "Low Confidence" or "Source citations missing", do NOT use that information as fact. 
 Instead, try rephrasing your search query to find better results, or honestly state you cannot verify the information.
-Start your answer with "Checking the manuals..." when searching.""")
+Start your answer with "Checking the manuals..." when searching."""
+        
+        sys_msg = SystemMessage(content=base_prompt + profile_context)
         messages = [sys_msg] + messages
         
     response = model.invoke(messages)
@@ -79,5 +89,12 @@ if os.getenv("TEST_MODE"):
 else:
     pool = ConnectionPool(conninfo=POSTGRES_URL, max_size=10, timeout=30)
     checkpointer = PostgresSaver(pool)
+
+# Helper to fetch profile
+def get_user_profile(tenant_id: str, user_id: str) -> Dict[str, Any]:
+    # Mock implementation for Credentialless/Test Mode
+    if os.getenv("TEST_MODE") or os.getenv("MOCK_LLM") == "true":
+        return {"simulated_fact": "User prefers concise answers."}
+    return {}
 
 app = workflow.compile(checkpointer=checkpointer)

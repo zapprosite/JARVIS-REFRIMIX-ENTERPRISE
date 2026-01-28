@@ -61,7 +61,7 @@
 - [x] **Scheduler Service** (Heartbeat) → Criar container `services/scheduler` para disparar eventos proativos.
 - [x] **Episodic Memory DB** → Migration SQL `user_profiles` (JSONB) para consolidar fatos do usuário.
 - [x] **Memory Consolidator** → Script que resume chats do dia e atualiza o perfil (Raciocínio Offline).
-- [ ] **Context Injection** → Middleware no `graph.py` para injetar Perfil do Usuário no System Prompt.
+- [x] **Context Injection** → Middleware no `graph.py` para injetar Perfil do Usuário no System Prompt.
 - [ ] **Admin Tools (RBAC)** → Implementar `run_diagnostic` tool protegida por verificação de `admin`.
 
 ***

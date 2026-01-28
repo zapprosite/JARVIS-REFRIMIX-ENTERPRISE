@@ -107,10 +107,16 @@ async def chat(req: ChatRequest):
     # Usually adapter sends just the new message.
     
     # Let's assume req.messages contains ONLY new messages to append
+    
+    # Context Injection
+    from src.graph import get_user_profile
+    user_profile = get_user_profile(req.tenant_id, req.user_id)
+
     inputs = {
         "messages": req.messages, # LangGraph handles dicts like {"role": "user", "content": "..."}
         "tenant_id": req.tenant_id,
-        "user_id": req.user_id
+        "user_id": req.user_id,
+        "user_profile": user_profile
     }
     
     try:
