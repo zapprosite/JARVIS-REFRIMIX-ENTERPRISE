@@ -1,0 +1,42 @@
+{
+    "projectName": "JARVIS-REFRIMIX-ENTERPRISE",
+    "description": "Enterprise-grade RAG system for HVAC support, integrated with WhatsApp via ZapPRO.",
+    "techStack": [
+        "Python 3.12",
+        "FastAPI",
+        "LangGraph",
+        "LangChain",
+        "PostgreSQL",
+        "Redis",
+        "Docker",
+        "Coolify"
+    ],
+    "architecture": "Microservices",
+    "features": [
+        {
+            "name": "Orchestrator",
+            "status": "Production-Ready",
+            "description": "Central decision engine using LangGraph."
+        },
+        {
+            "name": "Rate Limiting",
+            "status": "Active",
+            "description": "Token bucket implementation via Redis."
+        },
+        {
+            "name": "State Persistence",
+            "status": "Active",
+            "description": "Conversation history stored in PostgreSQL via PostgresSaver."
+        },
+        {
+            "name": "Security",
+            "status": "Active",
+            "description": "Input sanitization and prompt injection protection."
+        }
+    ],
+    "directories": {
+        "services/orchestrator-langgraph": "Main interaction graph",
+        "ops": "Infrastructure (Coolify, Docker)",
+        ".agent": "AI Governance and Skills"
+    }
+}
