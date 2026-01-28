@@ -22,6 +22,13 @@ logger.setLevel(logging.INFO)
 REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379")
 rate_limiter = RateLimiter(REDIS_URL)
 
+# Semantic Cache Setup
+from src.cache import setup_semantic_cache
+# Only setup cache if not in simple test mode preventing connection, 
+# although our cache setup handles exceptions.
+# We pass REDIS_URL.
+setup_semantic_cache(REDIS_URL)
+
 app = FastAPI()
 
 class ChatRequest(BaseModel):
