@@ -29,7 +29,14 @@ from src.cache import setup_semantic_cache
 # We pass REDIS_URL.
 setup_semantic_cache(REDIS_URL)
 
+# Telemetry Setup
+from src.telemetry import setup_telemetry
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
+setup_telemetry()
+
 app = FastAPI()
+FastAPIInstrumentor.instrument_app(app)
 
 class ChatRequest(BaseModel):
     messages: List[Dict[str, str]] # [{"role": "user", "content": "..."}]

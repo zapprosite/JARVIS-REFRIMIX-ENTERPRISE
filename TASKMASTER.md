@@ -41,7 +41,7 @@
 
 ## � ROADMAP 2026 (Modernization)
 - [x] **Semantic Caching** → Implementar Redis Semantic Cache (reduzir latência/custo).
-- [ ] **Observability** → OpenTelemetry (OTel) para tracing de Agentes.
+- [x] **Observability** → OpenTelemetry (OTel) para tracing de Agentes.
 - [ ] **Guardrails Sidecar** → Mover security (Sanitizer) para Proxy/Rust sidecar.
 - [ ] **Self-Correction** → Reflexão automática em caso de erro/alucinação.
 - [ ] **TestSprite MCP** → Corrigir autenticação e integrar geração de testes AI.
