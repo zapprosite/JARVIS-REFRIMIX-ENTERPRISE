@@ -39,12 +39,13 @@
 - [x] Implementar citations obrigatórias (validate_rag_response)
 - [x] Accuracy monitoring (Grafana dashboard)
 
-## � ROADMAP 2026 (Modernization)
+##  ROADMAP 2026 (Modernization)
 - [x] **Semantic Caching** → Implementar Redis Semantic Cache (reduzir latência/custo).
 - [x] **Observability** → OpenTelemetry (OTel) para tracing de Agentes.
 - [x] **Guardrails Sidecar** → Mover security (Sanitizer) para Proxy/Rust sidecar.
 - [x] **Self-Correction** → Reflexão automática em caso de erro/alucinação.
-- [x] **TestSprite MCP** → Corrigir autenticação e integrar geração de testes AI.
+- [ ] **Episodic Memory** → Implementar MongoDB para salvar "Thought Traces" (LangGraph Logs).
+- [ ] **TestSprite MCP** → Corrigir autenticação e integrar geração de testes AI.
 - [x] **Credentialless Mode** → Garantir "Mock-First" boot (app sobe sem secrets reais).
 - [x] **Contract Verification** → Scripts `curl` para validar contratos de API (smoke tests).
 
@@ -55,6 +56,13 @@
 - Sprint 0: Rate Limit 100% funcional + Persistência estável (CHECK).
 - Sprint 1: CI green + all healthchecks pass.
 - Sprint 2: RAG accuracy > 92%, citations 100%.
+
+## 🟣 SPRINT 3 - AGENTIC EVOLUTION (Moltbot Era)
+- [x] **Scheduler Service** (Heartbeat) → Criar container `services/scheduler` para disparar eventos proativos.
+- [ ] **Episodic Memory DB** → Migration SQL `user_profiles` (JSONB) para consolidar fatos do usuário.
+- [ ] **Memory Consolidator** → Script que resume chats do dia e atualiza o perfil (Raciocínio Offline).
+- [ ] **Context Injection** → Middleware no `graph.py` para injetar Perfil do Usuário no System Prompt.
+- [ ] **Admin Tools (RBAC)** → Implementar `run_diagnostic` tool protegida por verificação de `admin`.
 
 ***
 

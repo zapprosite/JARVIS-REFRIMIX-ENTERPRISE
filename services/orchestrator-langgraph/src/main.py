@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 import logging
 import os
 from src.graph import app as graph_app
@@ -47,6 +47,16 @@ class ChatRequest(BaseModel):
 @app.get("/health")
 async def health():
     return {"status": "ok", "service": "orchestrator-langgraph"}
+
+@app.post("/v1/system-event")
+async def system_event(event: Dict[str, Any]):
+    """
+    Endpoint for internal system events (Heartbeats, Cron jobs).
+    Authenticated via internal network (or we could add a secret header).
+    """
+    logger.info(f"System Event Received: {event}")
+    # TODO: In future sprints, this will trigger the 'Proactive Agent' graph.
+    return {"status": "received", "event": event["event_type"]}
 
 @app.post("/v1/chat")
 async def chat(req: ChatRequest):

@@ -80,6 +80,18 @@ services:
       timeout: 10s
       retries: 3
 
+  scheduler:
+    build: ../../services/scheduler
+    restart: always
+    environment:
+      - ORCHESTRATOR_URL=http://orchestrator-langgraph:8000
+      - HEARTBEAT_INTERVAL_MINUTES=60
+    networks:
+      - internal
+    depends_on:
+      - orchestrator-langgraph
+
+
   # --- Domain Services ---
   rag-hvac:
     build: ../../services/rag-hvac
