@@ -33,7 +33,7 @@
 
 ## 🔴 PRÓXIMAS TAREFAS (Sprint 1)
 - [x] **Input validation** → services/orchestrator-langgraph/src/security.py (Implementar sanitização real)
-- [ ] **Testes automatizados** → services/*/tests/integration.test.*
+- [x] **Testes automatizados** → services/*/tests/integration.test.*
 
 ## 🟡 SPRINT 2 - RAG PRODUCTION (Dias 4-7)
 - [ ] Ingest 50+ manuais HVAC BR (Daikin, Mitsubishi, LG)

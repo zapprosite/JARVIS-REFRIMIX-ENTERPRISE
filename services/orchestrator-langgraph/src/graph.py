@@ -57,9 +57,13 @@ workflow.add_edge("tools", "agent")
 
 # Postgres Persistence
 POSTGRES_URL = os.getenv("POSTGRES_URL", "postgresql://user:password@postgres:5432/zappro")
-pool = ConnectionPool(conninfo=POSTGRES_URL, max_size=10, timeout=30)
 
-# Checkpointer
-checkpointer = PostgresSaver(pool)
+# Conditional Checkpointer for Testing
+if os.getenv("TEST_MODE"):
+    from langgraph.checkpoint.memory import MemorySaver
+    checkpointer = MemorySaver()
+else:
+    pool = ConnectionPool(conninfo=POSTGRES_URL, max_size=10, timeout=30)
+    checkpointer = PostgresSaver(pool)
 
 app = workflow.compile(checkpointer=checkpointer)
