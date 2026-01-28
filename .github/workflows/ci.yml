@@ -12,7 +12,7 @@ jobs:
         with:
           scan-type: "fs"
           severity: "CRITICAL,HIGH"
-          exit-code: "0" # Don't break build yet, just warn. Audit said exit 1 but let's be safe for first run.
+          exit-code: "1" # Enforcing strict security as per Audit requirements
           # Reverting to exit 1 to match audit strictness
           # exit-code: '1'
 
