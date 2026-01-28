@@ -43,7 +43,7 @@
 - [x] **Semantic Caching** → Implementar Redis Semantic Cache (reduzir latência/custo).
 - [x] **Observability** → OpenTelemetry (OTel) para tracing de Agentes.
 - [x] **Guardrails Sidecar** → Mover security (Sanitizer) para Proxy/Rust sidecar.
-- [ ] **Self-Correction** → Reflexão automática em caso de erro/alucinação.
+- [x] **Self-Correction** → Reflexão automática em caso de erro/alucinação.
 - [ ] **TestSprite MCP** → Corrigir autenticação e integrar geração de testes AI.
 - [x] **Credentialless Mode** → Garantir "Mock-First" boot (app sobe sem secrets reais).
 - [x] **Contract Verification** → Scripts `curl` para validar contratos de API (smoke tests).

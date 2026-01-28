@@ -45,7 +45,11 @@ def agent_node(state: AgentState):
     messages = state["messages"]
     # We could add system prompt injection here based on tenant_id
     if not any(isinstance(m, SystemMessage) for m in messages):
-        sys_msg = SystemMessage(content="You are a helpful HVAC assistant. ALWAYS use the query_hvac_manuals tool for technical questions. Do not guess.")
+        sys_msg = SystemMessage(content="""You are a helpful HVAC assistant. 
+ALWAYS use the query_hvac_manuals tool for technical questions. Do not guess.
+If a tool returns "Low Confidence" or "Source citations missing", do NOT use that information as fact. 
+Instead, try rephrasing your search query to find better results, or honestly state you cannot verify the information.
+Start your answer with "Checking the manuals..." when searching.""")
         messages = [sys_msg] + messages
         
     response = model.invoke(messages)
