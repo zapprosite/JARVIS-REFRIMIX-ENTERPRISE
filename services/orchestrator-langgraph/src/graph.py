@@ -17,12 +17,22 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "sk-dummy") # LiteLLM usually accep
 tools = [query_hvac_manuals, search_web]
 
 # Model
-model = ChatOpenAI(
-    base_url=LITELLM_URL, 
-    api_key=OPENAI_API_KEY, 
-    model="gpt-4o", # Model name routed by LiteLLM
-    temperature=0
-).bind_tools(tools)
+# Model
+if os.getenv("MOCK_LLM") == "true":
+    from langchain_community.chat_models import FakeListChatModel
+    # Basic Mock that cycles through responses
+    model = FakeListChatModel(responses=[
+        "Hello! I am running in Credentialless Mock Mode. How can I help you?",
+        "I can help you with HVAC manuals (Simulated).",
+        "Error E7 usually means fan lock (Mocked Answer)."
+    ])
+else:
+    model = ChatOpenAI(
+        base_url=LITELLM_URL, 
+        api_key=OPENAI_API_KEY, 
+        model="gpt-4o", # Model name routed by LiteLLM
+        temperature=0
+    ).bind_tools(tools)
 
 # State
 class AgentState(TypedDict):

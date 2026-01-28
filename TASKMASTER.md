@@ -46,8 +46,8 @@
 - [ ] **Guardrails Sidecar** → Mover security (Sanitizer) para Proxy/Rust sidecar.
 - [ ] **Self-Correction** → Reflexão automática em caso de erro/alucinação.
 - [ ] **TestSprite MCP** → Corrigir autenticação e integrar geração de testes AI.
-- [ ] **Credentialless Mode** → Garantir "Mock-First" boot (app sobe sem secrets reais).
-- [ ] **Contract Verification** → Scripts `curl` para validar contratos de API (smoke tests).
+- [x] **Credentialless Mode** → Garantir "Mock-First" boot (app sobe sem secrets reais).
+- [x] **Contract Verification** → Scripts `curl` para validar contratos de API (smoke tests).
 
 ## �📊 Métricas de Sucesso
 - Sprint 0: Rate Limit 100% funcional + Persistência estável (CHECK).
