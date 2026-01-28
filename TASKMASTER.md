@@ -59,7 +59,7 @@
 
 ## 🟣 SPRINT 3 - AGENTIC EVOLUTION (Moltbot Era)
 - [x] **Scheduler Service** (Heartbeat) → Criar container `services/scheduler` para disparar eventos proativos.
-- [ ] **Episodic Memory DB** → Migration SQL `user_profiles` (JSONB) para consolidar fatos do usuário.
+- [x] **Episodic Memory DB** → Migration SQL `user_profiles` (JSONB) para consolidar fatos do usuário.
 - [ ] **Memory Consolidator** → Script que resume chats do dia e atualiza o perfil (Raciocínio Offline).
 - [ ] **Context Injection** → Middleware no `graph.py` para injetar Perfil do Usuário no System Prompt.
 - [ ] **Admin Tools (RBAC)** → Implementar `run_diagnostic` tool protegida por verificação de `admin`.
