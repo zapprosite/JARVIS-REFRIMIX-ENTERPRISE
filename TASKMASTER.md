@@ -37,7 +37,7 @@
 
 ## 🟡 SPRINT 2 - RAG PRODUCTION (Dias 4-7)
 - [x] Implementar citations obrigatórias (validate_rag_response)
-- [ ] Accuracy monitoring (Grafana dashboard)
+- [x] Accuracy monitoring (Grafana dashboard)
 
 ## � ROADMAP 2026 (Modernization)
 - [ ] **Semantic Caching** → Implementar Redis Semantic Cache (reduzir latência/custo).
